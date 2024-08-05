@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Part</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: auto;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[type="email"],
+        textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        input[type="checkbox"] {
+            margin-top: 10px;
+        }
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Edit Part</h1>
+    <form method="post">
+        <label for="part">Part Name:</label>
+        <input type="text" id="part" name="part" value="{{ part.part }}" required>
+
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" value="{{ part.name }}" required>
+
+        <label for="serialno">Serial Number:</label>
+        <input type="text" id="serialno" name="serialno" value="{{ part.serialno }}" required>
+
+        <label for="firmware">Firmware:</label>
+        <input type="text" id="firmware" name="firmware" value="{{ part.firmware }}">
+
+        <label for="functioning">Functioning:</label>
+        <input type="checkbox" id="functioning" name="functioning" {% if part.functioning %} checked {% endif %}>
+
+        <label for="notes">Notes:</label>
+        <textarea id="notes" name="notes">{{ part.notes }}</textarea>
+
+        <label for="holder_email">Holder Email:</label>
+        <input type="email" id="holder_email" name="holder_email" value="{{ part.holder_email }}">
+
+        <label for="holder_username">Holder Username:</label>
+        <input type="text" id="holder_username" name="holder_username" value="{{ part.holder_username }}">
+
+        <label for="holder_keybase">Holder Keybase:</label>
+        <input type="text" id="holder_keybase" name="holder_keybase" value="{{ part.holder_keybase }}">
+
+        <button type="submit">Update Part</button>
+    </form>
+    <a href="{{ url_for('index') }}">Back to List</a>
+</body>
+</html>

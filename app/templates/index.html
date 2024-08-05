@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parts Inventory</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-right: 10px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .button-container {
+            margin-bottom: 20px;
+        }
+        .button-container a {
+            text-decoration: none;
+        }
+        .button-container .button {
+            display: inline-block;
+        }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .pagination a {
+            padding: 8px 16px;
+            margin: 0 4px;
+            text-decoration: none;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            color: #007bff;
+        }
+        .pagination a.active {
+            background-color: #007bff;
+            color: #fff;
+            border: 1px solid #007bff;
+        }
+        .pagination a:hover {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Parts Inventory</h1>
+    <div class="button-container">
+        <a href="{{ url_for('create_part') }}" class="button">Create New Part</a>
+        <a href="{{ url_for('checkout_part') }}" class="button">Checkout</a>
+    </div>
+    <table id="partsTable" class="display">
+        <thead>
+            <tr>
+                <th>Part</th>
+                <th>Name</th>
+                <th>Serial No</th>
+                <th>Firmware</th>
+                <th>Functioning</th>
+                <th>Notes</th>
+                <th>Holder Email</th>
+                <th>Holder Username</th>
+                <th>Holder Keybase</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for part in parts.items %}
+            <tr>
+                <td>{{ part.part }}</td>
+                <td>{{ part.name }}</td>
+                <td>{{ part.serialno }}</td>
+                <td>{{ part.firmware }}</td>
+                <td>{{ part.functioning }}</td>
+                <td>{{ part.notes }}</td>
+                <td>{{ part.holder_email }}</td>
+                <td>{{ part.holder_username }}</td>
+                <td>{{ part.holder_keybase }}</td>
+                <td>
+                    <a href="{{ url_for('edit_part', id=part.id) }}">Edit</a>
+                    <form action="{{ url_for('delete_part', id=part.id) }}" method="post" style="display:inline;">
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="pagination">
+        {% if parts.has_prev %}
+            <a href="{{ url_for('index', page=parts.prev_num) }}">Previous</a>
+        {% endif %}
+        {% for p in parts.iter_pages() %}
+            {% if p %}
+                <a href="{{ url_for('index', page=p) }}" class="{% if p == parts.page %}active{% endif %}">{{ p }}</a>
+            {% else %}
+                <span>...</span>
+            {% endif %}
+        {% endfor %}
+        {% if parts.has_next %}
+            <a href="{{ url_for('index', page=parts.next_num) }}">Next</a>
+        {% endif %}
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#partsTable').DataTable();
+        });
+    </script>
+</body>
+</html>
